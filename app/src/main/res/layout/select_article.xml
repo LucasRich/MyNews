@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/search"
+    android:theme="@style/SearchTheme">
+
+    <EditText
+        android:id="@+id/boxSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:hint="Search query term"
+        android:backgroundTint="@color/colorPrimary"
+        />
+
+    <EditText
+        android:id="@+id/beginDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/boxSearch"
+        android:layout_marginLeft="15dp"
+        android:ems="7"
+        android:inputType="date"
+        />
+
+    <EditText
+        android:id="@+id/EndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/boxSearch"
+        android:layout_marginLeft="30dp"
+        android:ems="7"
+        android:inputType="date"
+        android:layout_toRightOf="@+id/beginDate"
+        />
+
+    <CheckBox
+        android:id="@+id/checkBoxArts"
+        android:layout_below="@+id/beginDate"
+        android:layout_alignLeft="@+id/beginDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Arts" />
+
+    <CheckBox
+        android:id="@+id/checkBoxBuisness"
+        android:layout_below="@+id/checkBoxArts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@+id/beginDate"
+        android:text="Buisness" />
+
+    <CheckBox
+        android:id="@+id/checkBoxEntrepreneurs"
+        android:layout_below="@+id/checkBoxBuisness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@+id/beginDate"
+        android:text="Entrepreneurs" />
+
+    <CheckBox
+        android:id="@+id/checkBoxPolitics"
+        android:layout_below="@+id/EndDate"
+        android:layout_alignLeft="@+id/EndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Politics" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSports"
+        android:layout_below="@+id/checkBoxPolitics"
+        android:layout_alignLeft="@+id/EndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Sports" />
+
+    <CheckBox
+        android:id="@+id/checkBoxTravel"
+        android:layout_below="@+id/checkBoxSports"
+        android:layout_alignLeft="@+id/EndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Travel" />
+
+    <Button
+        android:id="@+id/buttonSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/checkBoxEntrepreneurs"
+        android:background="@drawable/roundedbutton"
+        android:textColor="@color/colorAccent"
+        android:text="SEARCH"
+        />
+
+</RelativeLayout>

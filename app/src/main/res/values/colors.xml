@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#01bbd3</color>
+    <color name="colorPrimaryDark">#0196a6</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="grey">#878a8a</color>
+
+    <array name="colorPagesViewPager">
+        <item>#EDD9CF</item>
+        <item>#BED4D6</item>
+        <item>#ADCEB7</item>
+        <item>#F7CF8B</item>
+        <item>#FD96A2</item>
+    </array>
+</resources>
