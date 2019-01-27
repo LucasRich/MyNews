@@ -16,14 +16,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controllers.Activities.SearchArticleActivity"
-                  android:label="SearchArticle"
-                  android:parentActivityName=".Controllers.Activities.MainActivity">
+        <activity
+            android:name=".Controllers.Activities.SearchArticleActivity"
+            android:label="SearchArticle"
+            android:parentActivityName=".Controllers.Activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.Activities.MainActivity" />
+        </activity>
 
-                  <meta-data
-                      android:name="android.support.PARENT_ACTIVITY"
-                      android:value=".Controllers.Activities.MainActivity"/>
-                  </activity>
+        <activity
+            android:name=".Controllers.Activities.NotificationActivity"
+            android:label="Notifications"
+            android:parentActivityName=".Controllers.Activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.Activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

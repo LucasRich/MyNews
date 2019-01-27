@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         //3 - Handle actions on menu items
         switch (item.getItemId()) {
             case R.id.Notifications:
-                Toast.makeText(this, "Il n'y a rien à paramétrer ici, passez votre chemin...", Toast.LENGTH_LONG).show();
-                return true;
+                launchNotificationActivity();
+                 return true;
             case R.id.menu_activity_main_search:
                 launchSearchArticleActivity();
                 return true;
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         ViewPager pager = (ViewPager)findViewById(R.id.activity_main_viewpager);
         //Set Adapter PageAdapter and glue it together
         pager.setAdapter(new PageAdapter(getSupportFragmentManager()));
-
         // 1 - Get TabLayout from layout
         TabLayout tabs= (TabLayout)findViewById(R.id.activity_main_tabs);
         // 2 - Glue TabLayout and ViewPager together
@@ -80,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchSearchArticleActivity(){
         Intent myIntent = new Intent(MainActivity.this, SearchArticleActivity.class);
+        this.startActivity(myIntent);
+    }
+
+    private void launchNotificationActivity(){
+        Intent myIntent = new Intent(MainActivity.this, NotificationActivity.class);
         this.startActivity(myIntent);
     }
 }
