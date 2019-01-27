@@ -1,7 +1,7 @@
 package com.lucas.mynews.Controllers.Activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +9,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import com.lucas.mynews.Adapter.PageAdapter;
+import com.lucas.mynews.Views.Adapter.PageAdapter;
+
 import com.lucas.mynews.R;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -75,5 +82,4 @@ public class MainActivity extends AppCompatActivity {
         Intent myIntent = new Intent(MainActivity.this, SearchArticleActivity.class);
         this.startActivity(myIntent);
     }
-
 }

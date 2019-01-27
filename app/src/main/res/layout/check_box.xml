@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/search"
+    android:theme="@style/SearchTheme">
+
+
+
+    <CheckBox
+        android:id="@+id/checkBoxArts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Arts" />
+
+    <CheckBox
+        android:id="@+id/checkBoxBuisness"
+        android:layout_below="@+id/checkBoxArts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Buisness" />
+
+    <CheckBox
+        android:id="@+id/checkBoxEntrepreneurs"
+        android:layout_below="@+id/checkBoxBuisness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Entrepreneurs" />
+
+    <CheckBox
+        android:id="@+id/checkBoxPolitics"
+        android:layout_toRightOf="@+id/checkBoxBuisness"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="100dp"
+        android:text="Politics" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/checkBoxPolitics"
+        android:layout_toRightOf="@+id/checkBoxBuisness"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp"
+        android:text="Sports" />
+
+    <CheckBox
+        android:id="@+id/checkBoxTravel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/checkBoxSports"
+        android:layout_toRightOf="@+id/checkBoxBuisness"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp"
+        android:text="Travel" />
+
+</RelativeLayout>

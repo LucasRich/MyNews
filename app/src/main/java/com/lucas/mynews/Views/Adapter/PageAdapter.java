@@ -1,4 +1,4 @@
-package com.lucas.mynews.Adapter;
+package com.lucas.mynews.Views.Adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
