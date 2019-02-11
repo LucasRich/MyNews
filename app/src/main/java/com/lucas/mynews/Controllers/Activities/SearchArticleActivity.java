@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -13,36 +14,45 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 
+import com.lucas.mynews.Models.Search.SearchArticle;
+import com.lucas.mynews.Models.Search.SearchResponse;
+import com.lucas.mynews.Models.TopStories.TopStoriesArticle;
+import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
 import com.lucas.mynews.R;
+import com.lucas.mynews.Utils.NyTimeStreams;
 
 import java.util.Calendar;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class SearchArticleActivity extends AppCompatActivity implements
         View.OnClickListener{
 
-    ImageButton btnBeginDate;
-    ImageButton btnEndDate;
-    EditText txtBeginDate;
-    EditText txtEndDate;
     private int mYear, mMonth, mDay;
 
+    @BindView(R.id.btnDateBegin) ImageButton btnBeginDate;
+    @BindView(R.id.btnDateEnd) ImageButton btnEndDate;
+    @BindView(R.id.beginDate) EditText txtBeginDate;
+    @BindView(R.id.endDate) EditText txtEndDate;
 
+    private Disposable disposable;
+    private List<SearchArticle> articles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_article);
-
+        ButterKnife.bind(this);
         this.configureToolbar();
-
-        btnBeginDate = (ImageButton) findViewById(R.id.btnDateBegin);
-        btnEndDate = (ImageButton) findViewById(R.id.btnDateEnd);
-        txtBeginDate = (EditText) findViewById(R.id.beginDate);
-        txtEndDate = (EditText) findViewById(R.id.endDate);
-
 
         btnBeginDate.setOnClickListener(this);
         btnEndDate.setOnClickListener(this);
+
+        executeHttpRequestWithRetrofit();
     }
 
     @Override
@@ -115,5 +125,37 @@ public class SearchArticleActivity extends AppCompatActivity implements
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
+    }
+
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
+
+    private void executeHttpRequestWithRetrofit(){
+        this.disposable = NyTimeStreams.streamFetchSearchArticles("election", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
+                .subscribeWith(new DisposableObserver<SearchResponse>(){
+                    @Override
+                    public void onNext(SearchResponse response) {
+                        Log.e("TAG","On Next");
+
+                        List<SearchArticle> dlArticles = response.getResult();
+
+                            System.out.println(dlArticles);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG","On Error"+Log.getStackTraceString(e));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("TAG","On Complete !!");
+                    }
+                });
+    }
+
+    private void disposeWhenDestroy(){
+        if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 }

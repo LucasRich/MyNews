@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.lucas.mynews.Controllers.Fragments.MostPopularFragment;
-import com.lucas.mynews.Controllers.Fragments.SearchArticleFragment;
+import com.lucas.mynews.Controllers.Fragments.MovieReviewsFragment;
 import com.lucas.mynews.Controllers.Fragments.TopStoriesFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
@@ -27,7 +27,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 1: //Page number 2
                 return MostPopularFragment.newInstance();
             case 2: //Page number 3
-                return SearchArticleFragment.newInstance();
+                return MovieReviewsFragment.newInstance();
             default:
                 return null;
         }
@@ -41,7 +41,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 1: //Page number 2
                 return "MOST POPULAR";
             case 2: //Page number 3
-                return "SEARCH ARTICLE";
+                return "MOVIE REVIEWS";
             default:
                 return null;
         }
