@@ -4,10 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_most_popular_recycler_view"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:theme="@style/SearchTheme">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_most_popular_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

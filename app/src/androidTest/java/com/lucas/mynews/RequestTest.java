@@ -4,6 +4,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.lucas.mynews.Models.MostPopular.MostPopularResponse;
 import com.lucas.mynews.Models.MovieReviews.MovieReviewsResponse;
+import com.lucas.mynews.Models.Search.SearchResponse;
 import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
 import com.lucas.mynews.Utils.NyTimeStreams;
 
@@ -48,6 +49,19 @@ public class RequestTest {
         Observable<MovieReviewsResponse> observableArticles = NyTimeStreams.streamFetchMovieReviewsArticles("all", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST");
         //2 - Create a new TestObserver
         TestObserver<MovieReviewsResponse> testObserver = new TestObserver<>();
+        //3 - Launch observable
+        observableArticles.subscribeWith(testObserver)
+                .assertNoErrors() // 3.1 - Check if no errors
+                .assertNoTimeout() // 3.2 - Check if no Timeout
+                .awaitTerminalEvent(); // 3.3 - Await the stream terminated before continue
+    }
+
+    @Test
+    public void fetchSearchArticles() throws Exception {
+
+        Observable<SearchResponse> observableArticles = NyTimeStreams.streamFetchSearchArticles("election","20160101", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST");
+        //2 - Create a new TestObserver
+        TestObserver<SearchResponse> testObserver = new TestObserver<>();
         //3 - Launch observable
         observableArticles.subscribeWith(testObserver)
                 .assertNoErrors() // 3.1 - Check if no errors

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.RequestManager;
 import com.lucas.mynews.Models.MostPopular.MostPopularArticle;
 import com.lucas.mynews.R;
+import com.lucas.mynews.Utils.UtilsSingleton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,8 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.fragment_most_popular_item_section) TextView textViewSection;
     @BindView(R.id.fragment_most_popular_item_image) ImageView imageView;
 
+    UtilsSingleton utils = UtilsSingleton.getInstance();
+
     public MostPopularViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -29,7 +32,7 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
 
     public void updateWithMostPopularArticles(MostPopularArticle articles, RequestManager glide){
         this.textViewTitle.setText(articles.getTitle());
-        this.textViewDate.setText(getGoodFormatDate(articles.getPublishedDate()));
+        this.textViewDate.setText(utils.getGoodFormatDate(articles.getPublishedDate()));
         this.textViewSection.setText(articles.getSection());
 
         if (articles.getMedia().get(0).getMediaMetadata() != null && articles.getMedia().get(0).getMediaMetadata().isEmpty() == false){
@@ -37,25 +40,5 @@ public class MostPopularViewHolder extends RecyclerView.ViewHolder {
         }else {
             glide.load("https://images-eu.ssl-images-amazon.com/images/I/615KWjAew4L.png").into(imageView);
         }
-    }
-
-    private String getGoodFormatDate(String publishedDate){
-        SimpleDateFormat formatter = new SimpleDateFormat("yy-mm-dd");
-        String dateInString = publishedDate;
-
-        try {
-            Date date = formatter.parse(dateInString.replaceAll("Z$", "+0000"));
-            publishedDate = formatter.format(date);
-        }
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        StringBuilder myName = new StringBuilder(publishedDate);
-        myName.setCharAt(2, '/');
-        myName.setCharAt(5, '/');
-        publishedDate = myName.toString();
-
-        return publishedDate;
     }
 }

@@ -10,39 +10,24 @@ public class Doc {
     @SerializedName("web_url")
     @Expose
     private String webUrl;
-    @SerializedName("snippet")
-    @Expose
-    private String snippet;
-    @SerializedName("lead_paragraph")
-    @Expose
-    private String leadParagraph;
-    @SerializedName("print_page")
-    @Expose
-    private String printPage;
-    @SerializedName("source")
-    @Expose
-    private String source;
     @SerializedName("multimedia")
     @Expose
-    private List<Object> multimedia = null;
+    private List<Multimedium> multimedia = null;
+    @SerializedName("headline")
+    @Expose
+    private Headline headline;
     @SerializedName("pub_date")
     @Expose
     private String pubDate;
-    @SerializedName("document_type")
+    @SerializedName("section_name")
     @Expose
-    private String documentType;
-    @SerializedName("type_of_material")
+    private String sectionName;
+    @SerializedName("subsectoinName")
     @Expose
-    private String typeOfMaterial;
-    @SerializedName("_id")
+    private String subsectoinName;
+    @SerializedName("uri")
     @Expose
-    private String id;
-    @SerializedName("word_count")
-    @Expose
-    private Integer wordCount;
-    @SerializedName("score")
-    @Expose
-    private Integer score;
+    private String uri;
 
     public String getWebUrl() {
         return webUrl;
@@ -52,44 +37,20 @@ public class Doc {
         this.webUrl = webUrl;
     }
 
-    public String getSnippet() {
-        return snippet;
-    }
-
-    public void setSnippet(String snippet) {
-        this.snippet = snippet;
-    }
-
-    public String getLeadParagraph() {
-        return leadParagraph;
-    }
-
-    public void setLeadParagraph(String leadParagraph) {
-        this.leadParagraph = leadParagraph;
-    }
-
-    public String getPrintPage() {
-        return printPage;
-    }
-
-    public void setPrintPage(String printPage) {
-        this.printPage = printPage;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public List<Object> getMultimedia() {
+    public List<Multimedium> getMultimedia() {
         return multimedia;
     }
 
-    public void setMultimedia(List<Object> multimedia) {
+    public void setMultimedia(List<Multimedium> multimedia) {
         this.multimedia = multimedia;
+    }
+
+    public Headline getHeadline() {
+        return headline;
+    }
+
+    public void setHeadline(Headline headline) {
+        this.headline = headline;
     }
 
     public String getPubDate() {
@@ -100,43 +61,28 @@ public class Doc {
         this.pubDate = pubDate;
     }
 
-    public String getDocumentType() {
-        return documentType;
+    public String getSectionName() {
+        return sectionName;
     }
 
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
     }
 
-    public String getTypeOfMaterial() {
-        return typeOfMaterial;
+    public String getSubsectoinName() {
+        return subsectoinName;
     }
 
-    public void setTypeOfMaterial(String typeOfMaterial) {
-        this.typeOfMaterial = typeOfMaterial;
+    public void setSubsectoinName(String subsectoinName) {
+        this.subsectoinName = subsectoinName;
     }
 
-    public String getId() {
-        return id;
+    public String getUri() {
+        return uri;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
-    public Integer getWordCount() {
-        return wordCount;
-    }
-
-    public void setWordCount(Integer wordCount) {
-        this.wordCount = wordCount;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
 }

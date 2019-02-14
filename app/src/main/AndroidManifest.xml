@@ -21,6 +21,7 @@
         <activity
             android:name=".Controllers.Activities.SearchArticleActivity"
             android:label="SearchArticle"
+            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".Controllers.Activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

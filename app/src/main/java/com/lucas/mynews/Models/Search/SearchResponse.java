@@ -6,11 +6,15 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class SearchResponse {
-    public List<SearchArticle> getResult() {
-        return results;
+    @SerializedName("response")
+    @Expose
+    private Response response;
+
+    public Response getResponse() {
+        return response;
     }
 
-    @SerializedName("results")
-    @Expose
-    private List<SearchArticle> results = null;
+    public void setResponse(Response response) {
+        this.response = response;
+    }
 }

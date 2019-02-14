@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.lucas.mynews.Controllers.Activities.WebViewActivity;
@@ -152,5 +153,4 @@ public class MostPopularFragment extends Fragment {
         articles.addAll(dlArticles);
         adapter.notifyDataSetChanged();
     }
-
 }

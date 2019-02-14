@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dip">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/activity_search_item_image"
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:layout_margin="5dip"
+            android:src="@drawable/img_test"
+            android:layout_alignParentLeft="true"/>
+
+        <View
+            android:layout_width="320dp"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/activity_search_item_image"
+            android:background="#FF909090"
+            android:layout_alignParentRight="true"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_toRightOf="@+id/activity_search_item_image"
+            android:layout_marginTop="10dp"
+
+            >
+
+            <TextView
+                android:id="@+id/activity_search_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="09/05/07"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/activity_search_item_title"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:textSize="16sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:text="Hacker Came, but the French WHacker Came, but the French Were Preparedere Prepared "
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

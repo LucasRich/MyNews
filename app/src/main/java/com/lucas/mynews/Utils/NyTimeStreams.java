@@ -5,11 +5,13 @@ import com.lucas.mynews.Models.MovieReviews.MovieReviewsResponse;
 import com.lucas.mynews.Models.Search.SearchResponse;
 import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 public class NyTimeStreams {
 
@@ -37,9 +39,10 @@ public class NyTimeStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<SearchResponse> streamFetchSearchArticles(String article, String apiKey){
+    public static Observable<SearchResponse> streamFetchSearchArticles(String article, String beginDate, String endDate, String apiKey){
         NyTimeService nyTimeService = NyTimeService.retrofit.create(NyTimeService.class);
-        return nyTimeService.getSearchArticle(article, apiKey)
+        //return nyTimeService.getSearchArticle(article, arts, business, entrepreneurs, politics, sports, travel, beginDate, endDate, apiKey)
+        return nyTimeService.getSearchArticle(article, beginDate, endDate, apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

@@ -35,7 +35,7 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularViewHold
             return new MostPopularViewHolder(view);
         }
 
-    // UPDATE VIEW HOLDER WITH A GITHUBUSER
+    // UPDATE VIEW HOLDER
         @Override
         public void onBindViewHolder(MostPopularViewHolder viewHolder, int position) {
             viewHolder.updateWithMostPopularArticles(this.articles.get(position), this.glide);

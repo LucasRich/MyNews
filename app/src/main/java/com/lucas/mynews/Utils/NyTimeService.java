@@ -5,6 +5,8 @@ import com.lucas.mynews.Models.MovieReviews.MovieReviewsResponse;
 import com.lucas.mynews.Models.Search.SearchResponse;
 import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -29,6 +31,8 @@ public interface NyTimeService {
     @GET("search/v2/articlesearch.json")
     Observable<SearchResponse> getSearchArticle(
                                                 @Query("q") String article,
+                                                @Query("begin_date") String beginDate,
+                                                @Query("end_date") String endDate,
                                                 @Query("api-key") String apiKey);
 
     Retrofit retrofit = new Retrofit.Builder()

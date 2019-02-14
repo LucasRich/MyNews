@@ -15,16 +15,16 @@
         android:text="Arts" />
 
     <CheckBox
-        android:id="@+id/checkBoxBuisness"
+        android:id="@+id/checkBoxBusiness"
         android:layout_below="@+id/checkBoxArts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Buisness" />
+        android:text="Business" />
 
     <CheckBox
         android:id="@+id/checkBoxEntrepreneurs"
-        android:layout_below="@+id/checkBoxBuisness"
+        android:layout_below="@+id/checkBoxBusiness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -32,7 +32,7 @@
 
     <CheckBox
         android:id="@+id/checkBoxPolitics"
-        android:layout_toRightOf="@+id/checkBoxBuisness"
+        android:layout_toRightOf="@+id/checkBoxBusiness"
         android:layout_marginRight="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/checkBoxPolitics"
-        android:layout_toRightOf="@+id/checkBoxBuisness"
+        android:layout_toRightOf="@+id/checkBoxBusiness"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="100dp"
         android:text="Sports" />
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/checkBoxSports"
-        android:layout_toRightOf="@+id/checkBoxBuisness"
+        android:layout_toRightOf="@+id/checkBoxBusiness"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="100dp"
         android:text="Travel" />
