@@ -1,6 +1,7 @@
 package com.lucas.mynews.Controllers.Activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.lucas.mynews.Utils.SharedPref;
 import com.lucas.mynews.Views.Adapter.PageAdapter;
 
 import com.lucas.mynews.R;
@@ -23,10 +25,13 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Context contextOfApplication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        contextOfApplication = getApplicationContext();
 
         this.configureToolbar();
         this.configureViewPagerAndTabs();
@@ -85,5 +90,9 @@ public class MainActivity extends AppCompatActivity {
     private void launchNotificationActivity(){
         Intent myIntent = new Intent(MainActivity.this, NotificationActivity.class);
         this.startActivity(myIntent);
+    }
+
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
     }
 }

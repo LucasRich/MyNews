@@ -12,7 +12,7 @@
         />
 
     <EditText
-        android:id="@+id/boxSearch"
+        android:id="@+id/boxSearch_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
@@ -41,7 +41,7 @@
         />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/switch_notification"
         android:layout_width="316dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/checkBox"

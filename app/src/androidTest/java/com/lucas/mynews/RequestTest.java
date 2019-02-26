@@ -59,7 +59,7 @@ public class RequestTest {
     @Test
     public void fetchSearchArticles() throws Exception {
 
-        Observable<SearchResponse> observableArticles = NyTimeStreams.streamFetchSearchArticles("election","20160101", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST");
+        Observable<SearchResponse> observableArticles = NyTimeStreams.streamFetchSearchArticles("election","20160101", "","CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST");
         //2 - Create a new TestObserver
         TestObserver<SearchResponse> testObserver = new TestObserver<>();
         //3 - Launch observable

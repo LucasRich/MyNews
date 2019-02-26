@@ -25,6 +25,7 @@ import com.lucas.mynews.Models.Search.SearchResponse;
 import com.lucas.mynews.R;
 import com.lucas.mynews.Utils.ItemClickSupport;
 import com.lucas.mynews.Utils.NyTimeStreams;
+import com.lucas.mynews.Utils.SharedPref;
 import com.lucas.mynews.Utils.UtilsSingleton;
 import com.lucas.mynews.Views.Adapter.SearchAdapter;
 
@@ -201,7 +202,7 @@ public class SearchArticleActivity extends AppCompatActivity implements
     }
 
     private void configureOnClickRecyclerView(){
-        ItemClickSupport.addTo(recyclerView, R.layout.fragment_most_popular_item)
+        ItemClickSupport.addTo(recyclerView, R.layout.activity_search_article_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {

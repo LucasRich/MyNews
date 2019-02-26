@@ -28,6 +28,9 @@
             android:layout_below="@+id/activity_search_item_image"
             android:background="#FF909090"
             android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/activity_search_item_image"
+            android:layout_marginLeft="2dp"
+
             />
 
         <RelativeLayout

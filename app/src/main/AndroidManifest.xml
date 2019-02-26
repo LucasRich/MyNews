@@ -21,8 +21,8 @@
         <activity
             android:name=".Controllers.Activities.SearchArticleActivity"
             android:label="SearchArticle"
-            android:windowSoftInputMode="stateHidden"
-            android:parentActivityName=".Controllers.Activities.MainActivity">
+            android:parentActivityName=".Controllers.Activities.MainActivity"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controllers.Activities.MainActivity" />
@@ -39,14 +39,27 @@
             android:name=".Controllers.Activities.WebViewActivity"
             android:label="WebView"
             android:parentActivityName=".Controllers.Activities.MainActivity">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controllers.Activities.MainActivity">
-
-            </meta-data>
-
+                android:value=".Controllers.Activities.MainActivity" />
         </activity>
+
+        <receiver android:name=".Utils.AlarmReceiver" />
+
+        <activity
+            android:name=".Controllers.Activities.DisplayNotification"
+            android:label="DisplayNotification"
+            android:parentActivityName=".Controllers.Activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.Activities.MainActivity" />
+        </activity>
+        <activity android:name=".Controllers.Activities.WebViewDisplayNotification"
+            android:label="WebViewDisplayNotification"
+            android:parentActivityName=".Controllers.Activities.DisplayNotification">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.Activities.DisplayNotification" /></activity>
     </application>
 
 </manifest>
