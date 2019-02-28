@@ -21,6 +21,7 @@ import com.lucas.mynews.Models.MovieReviews.MovieReviewsResponse;
 import com.lucas.mynews.R;
 import com.lucas.mynews.Utils.ItemClickSupport;
 import com.lucas.mynews.Utils.NyTimeStreams;
+import com.lucas.mynews.Utils.UtilsSingleton;
 import com.lucas.mynews.Views.Adapter.MostPopularAdapter;
 import com.lucas.mynews.Views.Adapter.MovieReviewsAdapter;
 
@@ -46,6 +47,8 @@ public class MovieReviewsFragment extends Fragment {
     private Disposable disposable;
     private List<MovieReviewsArticle> articles;
     private MovieReviewsAdapter adapter;
+
+    UtilsSingleton utils = UtilsSingleton.getInstance();
 
     public static MovieReviewsFragment newInstance() {
         return (new MovieReviewsFragment());
@@ -109,7 +112,9 @@ public class MovieReviewsFragment extends Fragment {
                         Intent myIntent = new Intent(getActivity(), WebViewActivity.class);
                         Bundle bundle = new Bundle();
 
-                        bundle.putString("url", getGoodFormatUrl(dlArticle.getLink().getUrl()));
+                        bundle.putString("url", utils.getGoodFormatUrl(dlArticle.getLink().getUrl()));
+                        System.out.println(dlArticle.getLink().getUrl());
+                        System.out.println(utils.getGoodFormatUrl(dlArticle.getLink().getUrl()));
 
                         myIntent.putExtras(bundle);
                         startActivity(myIntent);
@@ -159,15 +164,4 @@ public class MovieReviewsFragment extends Fragment {
         articles.addAll(dlArticles);
         adapter.notifyDataSetChanged();
     }
-
-    private String getGoodFormatUrl(String url){
-
-        StringBuilder myName = new StringBuilder(url);
-        myName.insert(4, 's');
-        url = myName.toString();
-
-        return url;
-    }
-
-
 }

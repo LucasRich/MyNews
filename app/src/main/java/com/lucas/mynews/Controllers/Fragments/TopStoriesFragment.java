@@ -1,6 +1,7 @@
 package com.lucas.mynews.Controllers.Fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,11 +15,13 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.lucas.mynews.Controllers.Activities.WebViewActivity;
+import com.lucas.mynews.Models.Search.Doc;
 import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
 import com.lucas.mynews.Models.TopStories.TopStoriesArticle;
 import com.lucas.mynews.R;
 import com.lucas.mynews.Utils.ItemClickSupport;
 import com.lucas.mynews.Utils.NyTimeStreams;
+import com.lucas.mynews.Utils.SharedPref;
 import com.lucas.mynews.Views.Adapter.TopStoriesAdapter;
 
 import java.util.ArrayList;
@@ -42,6 +45,8 @@ public class TopStoriesFragment extends Fragment {
     private List<TopStoriesArticle> articles;
     private TopStoriesAdapter adapter;
 
+    private boolean clicked = false;
+
     public static TopStoriesFragment newInstance() {
         return (new TopStoriesFragment());
     }
@@ -49,6 +54,7 @@ public class TopStoriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
+        SharedPref.init(getContext());
         ButterKnife.bind(this, view);
 
         this.configureRecyclerView();
@@ -103,7 +109,7 @@ public class TopStoriesFragment extends Fragment {
                         bundle.putString("url", dlArticle.getUrl());
 
                         myIntent.putExtras(bundle);
-                        startActivity(myIntent);
+                       startActivity(myIntent);
                     }
                 });
     }

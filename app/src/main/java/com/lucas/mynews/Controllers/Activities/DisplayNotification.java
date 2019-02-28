@@ -22,7 +22,9 @@ import com.lucas.mynews.Utils.SharedPref;
 import com.lucas.mynews.Utils.UtilsSingleton;
 import com.lucas.mynews.Views.Adapter.SearchAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -119,7 +121,7 @@ public class DisplayNotification extends AppCompatActivity {
     // -------------------
 
     private void executeHttpRequestWithRetrofit(){
-        this.disposable = NyTimeStreams.streamFetchSearchArticles(SharedPref.read(SharedPref.notificationArticleSearch, ""), beginDate, endDate,
+        this.disposable = NyTimeStreams.streamFetchSearchArticles(SharedPref.read(SharedPref.notificationArticleSearch, ""), utils.getCurrentDate(), endDate,
                                                             "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
 
                 .subscribeWith(new DisposableObserver<SearchResponse>(){

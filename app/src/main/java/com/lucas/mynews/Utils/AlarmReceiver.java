@@ -23,7 +23,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intentNotif, 0);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default")
-                    .setSmallIcon(R.drawable.ic_notfication)
+                    .setSmallIcon(R.drawable.ic_nytimes_icon)
                     .setContentTitle("New articles !")
                     .setContentText(SharedPref.read(SharedPref.nbArticles, 0) + " new articles wait you")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)

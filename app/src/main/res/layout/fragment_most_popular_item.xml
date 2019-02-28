@@ -19,7 +19,7 @@
             android:layout_width="70dip"
             android:layout_height="70dip"
             android:layout_margin="5dip"
-            android:src="@drawable/img_test"
+            android:src="@drawable/ic_nytimes_white"
             android:layout_alignParentLeft="true"/>
 
         <View

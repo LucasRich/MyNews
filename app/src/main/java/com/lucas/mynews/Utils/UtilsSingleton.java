@@ -4,6 +4,7 @@ import android.widget.CheckBox;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class UtilsSingleton {
@@ -74,5 +75,21 @@ public class UtilsSingleton {
                 CheckBoxChecked(checkBox6, box6));
 
         return value;
+    }
+
+    public String getGoodFormatUrl(String url){
+
+        StringBuilder myUrl = new StringBuilder(url);
+        myUrl.insert(4, 's');
+        url = myUrl.toString();
+
+        return url;
+    }
+
+    public String getCurrentDate(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd ");
+        String currentDate = dateFormat.format(calendar.getTime());
+        return currentDate;
     }
 }

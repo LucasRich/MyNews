@@ -3,12 +3,14 @@ package com.lucas.mynews.Views;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lucas.mynews.Models.TopStories.TopStoriesArticle;
 import com.lucas.mynews.R;
 
 import com.bumptech.glide.RequestManager;
+import com.lucas.mynews.Utils.SharedPref;
 import com.lucas.mynews.Utils.UtilsSingleton;
 
 import butterknife.BindView;
@@ -19,6 +21,7 @@ public class TopStoriesViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.fragment_top_stories_item_date) TextView textViewDate;
     @BindView(R.id.fragment_top_stories_item_section) TextView textViewSection;
     @BindView(R.id.fragment_top_stories_item_image) ImageView imageView;
+    @BindView(R.id.view_top_stories) RelativeLayout myView;
 
     UtilsSingleton utils = UtilsSingleton.getInstance();
 

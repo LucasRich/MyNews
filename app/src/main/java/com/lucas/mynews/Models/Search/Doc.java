@@ -25,9 +25,6 @@ public class Doc {
     @SerializedName("subsectoinName")
     @Expose
     private String subsectoinName;
-    @SerializedName("uri")
-    @Expose
-    private String uri;
 
     public String getWebUrl() {
         return webUrl;
@@ -76,13 +73,4 @@ public class Doc {
     public void setSubsectoinName(String subsectoinName) {
         this.subsectoinName = subsectoinName;
     }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
-    }
-
 }
