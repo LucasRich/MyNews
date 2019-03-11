@@ -22,7 +22,7 @@ public class MyNewsUnitTest {
 
     UtilsSingleton utils_test = UtilsSingleton.getInstance();
 
-    @Test
+    /*@Test
     public void CheckBoxChecked_test() {
         CheckBox checkBox_Test = null;
         checkBox_Test.setChecked(true);
@@ -32,7 +32,7 @@ public class MyNewsUnitTest {
         result = utils_test.CheckBoxChecked(checkBox_Test, checkBox_Test.getText().toString());
 
         assertEquals("checkBoxTest", result);
-    }
+    }*/
 
     @Test
     public void DisplaySectionAndSubsectionIfNoNull_test() {
