@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:background="@drawable/color_shadow_white"
+
         >
 
         <ImageView
@@ -21,17 +23,6 @@
             android:layout_margin="5dip"
             android:src="@drawable/img_test"
             android:layout_alignParentLeft="true"/>
-
-        <View
-            android:layout_width="320dp"
-            android:layout_height="0.5dp"
-            android:layout_below="@+id/activity_display_notification_item_image"
-            android:background="#FF909090"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/activity_display_notification_item_image"
-            android:layout_marginLeft="2dp"
-
-            />
 
         <RelativeLayout
             android:layout_width="wrap_content"
