@@ -26,7 +26,7 @@
             android:layout_width="320dp"
             android:layout_height="0.5dp"
             android:layout_below="@+id/activity_search_item_image"
-            android:background="#FF909090"
+            android:background="#e1e1e1"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/activity_search_item_image"
             android:layout_marginLeft="2dp"

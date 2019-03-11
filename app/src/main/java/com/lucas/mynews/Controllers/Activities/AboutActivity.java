@@ -7,12 +7,12 @@ import android.support.v7.widget.Toolbar;
 
 import com.lucas.mynews.R;
 
-public class HelpActivity extends AppCompatActivity {
+public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.activity_about);
 
         this.configureToolbar();
     }

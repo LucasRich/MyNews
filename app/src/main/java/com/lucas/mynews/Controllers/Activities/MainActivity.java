@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -116,6 +117,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.Notifications:
                 launchNotificationActivity();
                  return true;
+            case R.id.Help:
+                launchHelpActivity();
+                 return true;
+            case R.id.About:
+                launchAboutActivity();
+                 return true;
             case R.id.menu_activity_main_search:
                 launchSearchArticleActivity();
                 return true;
@@ -147,6 +154,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_movie_reviews :
                 pager.setCurrentItem(2, true);
                 break;
+            case R.id.activity_main_drawer_help :
+                this.launchHelpActivity();
+                break;
+            case R.id.activity_main_drawer_about :
+                this.launchAboutActivity();
+                break;
             default:
                 break;
         }
@@ -169,6 +182,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent myIntent = new Intent(MainActivity.this, NotificationActivity.class);
         this.startActivity(myIntent);
     }
+
+    private void launchHelpActivity(){
+        Intent myIntent = new Intent(MainActivity.this, HelpActivity.class);
+        this.startActivity(myIntent);
+    }
+
+    private void launchAboutActivity(){
+        Intent myIntent = new Intent(MainActivity.this, AboutActivity.class);
+        this.startActivity(myIntent);
+    }
+
 
     public static Context getContextOfApplication(){
         return contextOfApplication;

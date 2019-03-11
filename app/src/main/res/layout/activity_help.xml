@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/help_title"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textColor="@color/black"
@@ -42,6 +42,7 @@
             />
 
         <TextView
+            android:id="@+id/help_txt1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/help_subtitle1"
@@ -50,6 +51,72 @@
             android:layout_marginTop="10dp"
             android:text="On the home screen there are three topics, Top storiee, Most popular and Movie reviews. you can navigate between these categories by slider from left to right "
             />
+
+        <TextView
+            android:id="@+id/help_subtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/help_txt1"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            android:text="Search article screen :"
+            />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/help_txt1"
+            android:layout_toRightOf="@+id/help_subtitle2"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_search_white_24dp" />
+
+        <TextView
+            android:id="@+id/help_txt2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/help_subtitle2"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="On the article search screen, you can search according to one or more keywords, that you can write or check according to those proposed by default. You can also search by the start and end date. Click on SEARCH to start the search."
+            />
+
+        <TextView
+            android:id="@+id/help_subtitle3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/help_txt2"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black"
+            android:text="Notification screen :"
+            />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/help_txt2"
+            android:layout_toRightOf="@+id/help_subtitle3"
+            android:src="@drawable/ic_more_vert_white_24dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary"
+            />
+
+        <TextView
+            android:id="@+id/help_txt3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/help_subtitle3"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="When you click on this button you can access to the notification screen, here you can activate the notifications and choose the items that will be notified to you every day at 12h."
+            />
+
 
     </RelativeLayout>
 
