@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.lucas.mynews.Models.Search.Doc;
@@ -22,9 +21,7 @@ import com.lucas.mynews.Utils.SharedPref;
 import com.lucas.mynews.Utils.UtilsSingleton;
 import com.lucas.mynews.Views.Adapter.SearchAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,6 +51,7 @@ public class DisplayNotification extends AppCompatActivity {
         ButterKnife.bind(this);
         SharedPref.init(getApplicationContext());
 
+        // START CONFIGURATION
         this.configureToolbar();
         this.configureRecyclerView();
         this.configureSwipeRefreshLayout();
@@ -65,16 +63,18 @@ public class DisplayNotification extends AppCompatActivity {
     // CONFIGURATION
     // -----------------
 
-    // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
-        // 3.1 - Reset list
         this.articles = new ArrayList<>();
-        // 3.2 - Create adapter passing the list of articles
         this.adapter = new SearchAdapter(this.articles, Glide.with(this));
-        // 3.3 - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
-        // 3.4 - Set layout manager to position the items
         this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void configureToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void configureSwipeRefreshLayout(){
@@ -105,24 +105,13 @@ public class DisplayNotification extends AppCompatActivity {
                 });
     }
 
-    private void configureToolbar(){
-        //Get the toolbar (Serialise)
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //Set the toolbar
-        setSupportActionBar(toolbar);
-        // Get a support ActionBar corresponding to this toolbar
-        ActionBar ab = getSupportActionBar();
-        // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
-    }
-
     // -------------------
     // HTTP (RxJAVA)
     // -------------------
 
     private void executeHttpRequestWithRetrofit(){
-        this.disposable = NyTimeStreams.streamFetchSearchArticles(SharedPref.read(SharedPref.notificationArticleSearch, ""), utils.getCurrentDate(), endDate,
-                                                            "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
+        this.disposable = NyTimeStreams.streamFetchSearchArticles(SharedPref.read(SharedPref.notificationArticleSearch, ""),
+                utils.getCurrentDate(), endDate, "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
 
                 .subscribeWith(new DisposableObserver<SearchResponse>(){
                     @Override
@@ -132,15 +121,9 @@ public class DisplayNotification extends AppCompatActivity {
                         updateUI(dlArticles);
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG","On Error"+Log.getStackTraceString(e));
-                    }
+                    @Override public void onError(Throwable e) { Log.e("TAG","On Error"+Log.getStackTraceString(e)); }
 
-                    @Override
-                    public void onComplete() {
-                        Log.e("TAG","On Complete !!");
-                    }
+                    @Override public void onComplete() { Log.e("TAG","On Complete !!"); }
                 });
     }
 

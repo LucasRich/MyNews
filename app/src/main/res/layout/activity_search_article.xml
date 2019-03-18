@@ -6,142 +6,142 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/search"
-    android:theme="@style/SearchTheme">
-
-    <include
-        layout="@layout/toolbar"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="match_parent"
+        android:id="@+id/search"
+        android:theme="@style/SearchTheme">
 
-    <EditText
-        android:id="@+id/boxSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:hint="Search query term"
-        android:backgroundTint="@color/colorPrimary"
-        />
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Begin Date"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/boxSearch"
-        />
+        <EditText
+            android:id="@+id/boxSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:hint="Search query term"
+            android:backgroundTint="@color/colorPrimary"
+            />
 
-    <EditText
-        android:id="@+id/beginDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/boxSearch"
-        android:layout_marginLeft="15dp"
-        android:ems="7"
-        android:layout_marginTop="25dp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Begin Date"
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/boxSearch"
+            />
 
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        />
+        <EditText
+            android:id="@+id/beginDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/boxSearch"
+            android:layout_marginLeft="15dp"
+            android:ems="7"
+            android:layout_marginTop="25dp"
 
-    <ImageButton
-        android:id="@+id/btnDateBegin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/beginDate"
-        android:layout_marginLeft="20dp"
-        android:paddingLeft="110dp"
-        android:background="@null"
-        android:src="@drawable/ic_arrow_drop_down_black_18dp"
-        android:text="SELECT DATE" />
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/beginDate"
-        android:text="End Date"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/boxSearch"
-        />
+        <ImageButton
+            android:id="@+id/btnDateBegin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/beginDate"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="110dp"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_drop_down_black_18dp"
+            android:text="SELECT DATE" />
 
-    <EditText
-        android:id="@+id/endDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/boxSearch"
-        android:layout_marginLeft="30dp"
-        android:ems="7"
-        android:inputType="date"
-        android:layout_toRightOf="@+id/beginDate"
-        android:layout_marginTop="25dp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/beginDate"
+            android:text="End Date"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/boxSearch"
+            />
 
-        android:clickable="false"
-        android:cursorVisible="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        />
+        <EditText
+            android:id="@+id/endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/boxSearch"
+            android:layout_marginLeft="30dp"
+            android:ems="7"
+            android:inputType="date"
+            android:layout_toRightOf="@+id/beginDate"
+            android:layout_marginTop="25dp"
 
-    <ImageButton
-        android:id="@+id/btnDateEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/beginDate"
-        android:layout_marginLeft="35dp"
-        android:paddingLeft="110dp"
-        android:background="@null"
-        android:src="@drawable/ic_arrow_drop_down_black_18dp"
-        android:text="SELECT DATE"
-        android:layout_toRightOf="@+id/beginDate"
-        />
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
 
-    <include
-        android:id="@+id/checkBox"
-        layout="@layout/check_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="185dp"
-        android:layout_marginLeft="15dp"
-        />
+        <ImageButton
+            android:id="@+id/btnDateEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/beginDate"
+            android:layout_marginLeft="35dp"
+            android:paddingLeft="110dp"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_drop_down_black_18dp"
+            android:text="SELECT DATE"
+            android:layout_toRightOf="@+id/beginDate"
+            />
 
-    <Button
-        android:id="@+id/buttonSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/checkBox"
-        android:background="@drawable/roundedbutton"
-        android:textColor="@color/colorAccent"
-        android:text="SEARCH"
-        />
+        <include
+            android:id="@+id/checkBox"
+            layout="@layout/check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="185dp"
+            android:layout_marginLeft="15dp"
+            />
 
-    <include
-        layout="@layout/txt_downloading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/buttonSearch"
-        />
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/checkBox"
+            android:background="@drawable/btn_search"
+            android:textColor="@color/colorAccent"
+            android:text="SEARCH"
+            />
+
+        <include
+            layout="@layout/txt_downloading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnSearch"
+            />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_search_recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonSearch"
-        />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/activity_search_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSearch"
+            />
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

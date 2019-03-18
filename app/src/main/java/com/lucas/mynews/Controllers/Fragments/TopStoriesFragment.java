@@ -45,8 +45,6 @@ public class TopStoriesFragment extends Fragment {
     private List<TopStoriesArticle> articles;
     private TopStoriesAdapter adapter;
 
-    private boolean clicked = false;
-
     public static TopStoriesFragment newInstance() {
         return (new TopStoriesFragment());
     }
@@ -57,6 +55,7 @@ public class TopStoriesFragment extends Fragment {
         SharedPref.init(getContext());
         ButterKnife.bind(this, view);
 
+        // START CONFIGURATION
         this.configureRecyclerView();
         this.executeHttpRequestWithRetrofit();
         this.configureSwipeRefreshLayout();
@@ -75,25 +74,11 @@ public class TopStoriesFragment extends Fragment {
     // CONFIGURATION
     // -----------------
 
-    // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
-   private void configureRecyclerView(){
-        // 3.1 - Reset list
+    private void configureRecyclerView(){
         this.articles = new ArrayList<>();
-        // 3.2 - Create adapter passing the list of articles
         this.adapter = new TopStoriesAdapter(this.articles, Glide.with(this));
-        // 3.3 - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
-        // 3.4 - Set layout manager to position the items
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    }
-
-    private void configureSwipeRefreshLayout(){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                executeHttpRequestWithRetrofit();
-            }
-        });
     }
 
     private void configureOnClickRecyclerView(){
@@ -109,9 +94,18 @@ public class TopStoriesFragment extends Fragment {
                         bundle.putString("url", dlArticle.getUrl());
 
                         myIntent.putExtras(bundle);
-                       startActivity(myIntent);
+                        startActivity(myIntent);
                     }
                 });
+    }
+
+    private void configureSwipeRefreshLayout(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                executeHttpRequestWithRetrofit();
+            }
+        });
     }
 
     // -------------------
@@ -121,24 +115,18 @@ public class TopStoriesFragment extends Fragment {
     private void executeHttpRequestWithRetrofit(){
         this.disposable = NyTimeStreams.streamFetchTopStoriesArticles("home", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
                 .subscribeWith(new DisposableObserver<TopStoriesResponse>(){
-            @Override
-            public void onNext(TopStoriesResponse response) {
-                Log.e("TAG","On Next");
+                    @Override
+                    public void onNext(TopStoriesResponse response) {
+                        Log.e("TAG","On Next");
 
-                List<TopStoriesArticle> dlArticles = response.getResult();
-                updateUI(dlArticles);
-            }
+                        List<TopStoriesArticle> dlArticles = response.getResult();
+                        updateUI(dlArticles);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e("TAG","On Error"+Log.getStackTraceString(e));
-            }
+                    @Override public void onError(Throwable e) { Log.e("TAG","On Error"+Log.getStackTraceString(e)); }
 
-            @Override
-            public void onComplete() {
-                Log.e("TAG","On Complete !!");
-            }
-        });
+                    @Override public void onComplete() { Log.e("TAG","On Complete !!"); }
+                });
     }
 
     private void disposeWhenDestroy(){

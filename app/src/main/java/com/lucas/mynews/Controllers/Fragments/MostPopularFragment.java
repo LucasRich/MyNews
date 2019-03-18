@@ -50,10 +50,10 @@ public class MostPopularFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
         ButterKnife.bind(this, view);
 
+        // START CONFIGURATION
         this.configureRecyclerView();
         this.executeHttpRequestWithRetrofit();
         this.configureSwipeRefreshLayout();
@@ -72,15 +72,10 @@ public class MostPopularFragment extends Fragment {
     // CONFIGURATION
     // -----------------
 
-    // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
-        // 3.1 - Reset list
         this.articles = new ArrayList<>();
-        // 3.2 - Create adapter passing the list of articles
         this.adapter = new MostPopularAdapter(this.articles, Glide.with(this));
-        // 3.3 - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
-        // 3.4 - Set layout manager to position the items
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -124,18 +119,11 @@ public class MostPopularFragment extends Fragment {
 
                         List<MostPopularArticle> dlArticles = response.getResult();
                         updateUI(dlArticles);
-
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG","On Error"+Log.getStackTraceString(e));
-                    }
+                    @Override public void onError(Throwable e) { Log.e("TAG","On Error"+Log.getStackTraceString(e)); }
 
-                    @Override
-                    public void onComplete() {
-                        Log.e("TAG","On Complete !!");
-                    }
+                    @Override public void onComplete() { Log.e("TAG","On Complete !!"); }
                 });
     }
 

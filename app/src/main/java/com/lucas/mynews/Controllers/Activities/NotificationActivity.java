@@ -1,15 +1,9 @@
 package com.lucas.mynews.Controllers.Activities;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,25 +15,18 @@ import android.widget.Switch;
 
 import com.lucas.mynews.Models.Search.Doc;
 import com.lucas.mynews.Models.Search.SearchResponse;
-import com.lucas.mynews.Models.TopStories.TopStoriesArticle;
-import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
 import com.lucas.mynews.R;
 import com.lucas.mynews.Utils.AlarmReceiver;
 import com.lucas.mynews.Utils.NyTimeStreams;
 import com.lucas.mynews.Utils.SharedPref;
 import com.lucas.mynews.Utils.UtilsSingleton;
-import com.lucas.mynews.Views.Adapter.SearchAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.operators.single.SingleJust;
 import io.reactivex.observers.DisposableObserver;
 
 public class NotificationActivity extends AppCompatActivity {
@@ -67,22 +54,18 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
         SharedPref.init(getApplicationContext());
         ButterKnife.bind(this);
-        configureToolbar();
-        startNotificationAtMidday();
-        }
+
+        this.configureToolbar();
+    }
 
     // -------------------
     // CONFIGURATION
     // -------------------
 
     private void configureToolbar(){
-        //Get the toolbar (Serialise)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //Set the toolbar
         setSupportActionBar(toolbar);
-        // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
-        // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
     }
 
@@ -101,7 +84,6 @@ public class NotificationActivity extends AppCompatActivity {
 
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         //alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 100, pendingIntent);
-
     }
 
     // -------------------
@@ -118,23 +100,21 @@ public class NotificationActivity extends AppCompatActivity {
                         Log.e("TAG","On Next");
                         List<Doc> dlArticles = response.getResponse().getDocs();
 
-                            for (Doc dlArticle : dlArticles){
-                              nbArticle++;
-                            }
+                        for (Doc dlArticle : dlArticles){
+                            nbArticle++;
+                        }
                         SharedPref.write(SharedPref.nbArticles, nbArticle);
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG","On Error"+Log.getStackTraceString(e));
-                    }
+                    @Override public void onError(Throwable e) { Log.e("TAG","On Error"+Log.getStackTraceString(e)); }
 
-                    @Override
-                    public void onComplete() {
-                        Log.e("TAG","On Complete !!");
-                    }
+                    @Override public void onComplete() { Log.e("TAG","On Complete !!"); }
                 });
     }
+
+    // -------------------
+    // INIT NOTIFICATION INPUT WITH PREFERENCES
+    // -------------------
 
     @Override
     protected void onStart() {
@@ -152,24 +132,28 @@ public class NotificationActivity extends AppCompatActivity {
         switchNotification.setChecked(SharedPref.read(SharedPref.switchNotification, false));
     }
 
+    // -------------------
+    // SAVE NOTIFICATION INPUT ON PREFERENCE AND START NOTIFICATION IF SWITCH AND ONE CHECKBOX TRUE
+    // -------------------
+
     @Override
     protected void onStop() {
         super.onStop();
 
+        // SAVE INPUT ON PREFERENCE
         SharedPref.write(SharedPref.txtBoxSearchNotification, txtBoxSearchNotification.getText().toString());
-
         SharedPref.write(SharedPref.checkBoxArts, checkBoxArts.isChecked());
         SharedPref.write(SharedPref.checkBoxBusiness, checkBoxBusiness.isChecked());
         SharedPref.write(SharedPref.checkBoxEntrepreneurs, checkBoxEntrepreneurs.isChecked());
         SharedPref.write(SharedPref.checkBoxPolitics, checkBoxPolitics.isChecked());
         SharedPref.write(SharedPref.checkBoxSports, checkBoxSports.isChecked());
         SharedPref.write(SharedPref.checkBoxTravel, checkBoxTravel.isChecked());
-
         SharedPref.write(SharedPref.switchNotification, switchNotification.isChecked());
 
-        if(SharedPref.read(SharedPref.switchNotification, false) == true && (checkBoxArts.isChecked() == true || checkBoxBusiness.isChecked() == true ||
-                checkBoxEntrepreneurs.isChecked() == true || checkBoxPolitics.isChecked() == true || checkBoxSports.isChecked() == true ||
-                checkBoxTravel.isChecked() == true))
+        //ACTIVATE NOTIFICATION
+        if(SharedPref.read(SharedPref.switchNotification, false) == true && (checkBoxArts.isChecked() == true ||
+                checkBoxBusiness.isChecked() == true || checkBoxEntrepreneurs.isChecked() == true || checkBoxPolitics.isChecked() == true ||
+                checkBoxSports.isChecked() == true || checkBoxTravel.isChecked() == true))
         {
 
             SharedPref.write(SharedPref.notificationArticleSearch, utils.createParamQuery(txtBoxSearchNotification.getText().toString(), checkBoxArts,

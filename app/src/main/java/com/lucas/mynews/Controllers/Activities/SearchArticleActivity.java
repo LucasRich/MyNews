@@ -38,11 +38,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-public class SearchArticleActivity extends AppCompatActivity implements
-        View.OnClickListener{
+public class SearchArticleActivity extends AppCompatActivity{
 
     private int mYear, mMonth, mDay;
 
@@ -51,7 +51,6 @@ public class SearchArticleActivity extends AppCompatActivity implements
     @BindView(R.id.beginDate) EditText txtBeginDate;
     @BindView(R.id.endDate) EditText txtEndDate;
     @BindView(R.id.boxSearch) EditText txtBoxSearch;
-    @BindView(R.id.buttonSearch) Button btnSearch;
     @BindView(R.id.txtDownloading) TextView txtDownloading;
     @BindView(R.id.checkBoxArts) CheckBox checkBoxArts;
     @BindView(R.id.checkBoxBusiness) CheckBox checkBoxBusiness;
@@ -59,6 +58,7 @@ public class SearchArticleActivity extends AppCompatActivity implements
     @BindView(R.id.checkBoxPolitics) CheckBox checkBoxPolitics;
     @BindView(R.id.checkBoxSports) CheckBox checkBoxSports;
     @BindView(R.id.checkBoxTravel) CheckBox checkBoxTravel;
+    @BindView(R.id.btnSearch) Button btnSearch;
 
     @BindView(R.id.activity_search_recycler_view) RecyclerView recyclerView;
     @BindView(R.id.activity_search_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
@@ -80,125 +80,28 @@ public class SearchArticleActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
         this.configureToolbar();
 
-        btnBeginDate.setOnClickListener(this);
-        btnEndDate.setOnClickListener(this);
-        btnSearch.setOnClickListener(this);
-
+        // START CONFIGURATION
         this.configureRecyclerView();
         this.configureSwipeRefreshLayout();
         this.configureOnClickRecyclerView();
-
-
-    }
-
-    // -----------------
-    // ACTION
-    // -----------------
-
-    @Override
-    public void onClick(View v) {
-
-        if (v == btnBeginDate) {
-
-            // Get Current Date
-            final Calendar c = Calendar.getInstance();
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    new DatePickerDialog.OnDateSetListener() {
-
-                        @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
-
-                            if(monthOfYear > 9) {
-                                txtBeginDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                                beginDate = (year + "" + (monthOfYear + 1) + "" + dayOfMonth);
-                            }
-                            else {
-                                txtBeginDate.setText(dayOfMonth + "/" + "0" + (monthOfYear + 1) + "/" + year);
-                                beginDate = (year + "" + "0" + (monthOfYear + 1) + "" + dayOfMonth);
-
-                            }
-                        }
-                    }, mYear, mMonth, mDay);
-            datePickerDialog.show();
-        }
-
-        if (v == btnEndDate) {
-
-            // Get Current Date
-            final Calendar c = Calendar.getInstance();
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    new DatePickerDialog.OnDateSetListener() {
-
-                        @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
-
-                            if(monthOfYear > 9) {
-                                txtEndDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                                endDate = (year + "" + (monthOfYear + 1) + "" + dayOfMonth);
-
-                            }
-                            else {
-                                txtEndDate.setText(dayOfMonth + "/" + "0" + (monthOfYear + 1) + "/" + year);
-                                endDate = (year + "" + "0" + (monthOfYear + 1) + "" + dayOfMonth);
-
-                            }
-                        }
-                    }, mYear, mMonth, mDay);
-            datePickerDialog.show();
-        }
-
-        if (v == btnSearch){
-
-            articles.clear();
-
-            articleSearch = utils.createParamQuery(txtBoxSearch.getText().toString(), checkBoxArts, checkBoxBusiness, checkBoxEntrepreneurs, checkBoxPolitics,
-                                                    checkBoxSports, checkBoxTravel, checkBoxArts.getText().toString(), checkBoxBusiness.getText().toString(),
-                                                    checkBoxEntrepreneurs.getText().toString(), checkBoxPolitics.getText().toString(),
-                                                    checkBoxSports.getText().toString(), checkBoxTravel.getText().toString());
-
-            this.updateUIWhenStartingHTTPRequest();
-            this.executeHttpRequestWithRetrofit();
-            searchDone = true;
-        }
     }
 
     // -----------------
     // CONFIGURATION
     // -----------------
 
-    // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
-    private void configureRecyclerView(){
-        // 3.1 - Reset list
-        this.articles = new ArrayList<>();
-        // 3.2 - Create adapter passing the list of articles
-        this.adapter = new SearchAdapter(this.articles, Glide.with(this));
-        // 3.3 - Attach the adapter to the recyclerview to populate items
-        this.recyclerView.setAdapter(this.adapter);
-        // 3.4 - Set layout manager to position the items
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    private void configureToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void configureSwipeRefreshLayout(){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (searchDone == true){
-                    articles.clear();
-                    updateUIWhenStartingHTTPRequest();
-                    executeHttpRequestWithRetrofit();
-                }
-            }
-        });
+    private void configureRecyclerView(){
+        this.articles = new ArrayList<>();
+        this.adapter = new SearchAdapter(this.articles, Glide.with(this));
+        this.recyclerView.setAdapter(this.adapter);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void configureOnClickRecyclerView(){
@@ -219,15 +122,98 @@ public class SearchArticleActivity extends AppCompatActivity implements
                 });
     }
 
-    private void configureToolbar(){
-        //Get the toolbar (Serialise)
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //Set the toolbar
-        setSupportActionBar(toolbar);
-        // Get a support ActionBar corresponding to this toolbar
-        ActionBar ab = getSupportActionBar();
-        // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
+    private void configureSwipeRefreshLayout(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (searchDone == true){
+                    articles.clear();
+                    updateUIWhenStartingHTTPRequest();
+                    executeHttpRequestWithRetrofit();
+                }
+            }
+        });
+    }
+
+    // -----------------
+    // ACTION
+    // -----------------
+
+    @OnClick(R.id.btnDateBegin)
+    public void onClickBtnDateBegin() {
+
+        // GET CURRENT DATE
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        // SELECT DATE
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+                        if(monthOfYear > 9) {
+                            txtBeginDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            beginDate = (year + "" + (monthOfYear + 1) + "" + dayOfMonth);
+                        }
+                        else {
+                            txtBeginDate.setText(dayOfMonth + "/" + "0" + (monthOfYear + 1) + "/" + year);
+                            beginDate = (year + "" + "0" + (monthOfYear + 1) + "" + dayOfMonth);
+
+                        }
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
+    }
+
+    @OnClick(R.id.btnDateEnd)
+    public void onClickBtnDateEnd() {
+
+        // GET CURRENT DATE
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        // SELECT DATE
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+                        if(monthOfYear > 9) {
+                            txtEndDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            endDate = (year + "" + (monthOfYear + 1) + "" + dayOfMonth);
+
+                        }
+                        else {
+                            txtEndDate.setText(dayOfMonth + "/" + "0" + (monthOfYear + 1) + "/" + year);
+                            endDate = (year + "" + "0" + (monthOfYear + 1) + "" + dayOfMonth);
+
+                        }
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
+    }
+
+    @OnClick(R.id.btnSearch)
+    public void onClickBtnSearch() {
+        articles.clear();
+
+        articleSearch = utils.createParamQuery(txtBoxSearch.getText().toString(), checkBoxArts, checkBoxBusiness, checkBoxEntrepreneurs, checkBoxPolitics,
+                checkBoxSports, checkBoxTravel, checkBoxArts.getText().toString(), checkBoxBusiness.getText().toString(),
+                checkBoxEntrepreneurs.getText().toString(), checkBoxPolitics.getText().toString(),
+                checkBoxSports.getText().toString(), checkBoxTravel.getText().toString());
+
+        this.updateUIWhenStartingHTTPRequest();
+        this.executeHttpRequestWithRetrofit();
+        searchDone = true;
     }
 
     // -------------------
@@ -252,15 +238,9 @@ public class SearchArticleActivity extends AppCompatActivity implements
                         }
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG","On Error"+Log.getStackTraceString(e));
-                    }
+                    @Override public void onError(Throwable e) { Log.e("TAG","On Error"+Log.getStackTraceString(e)); }
 
-                    @Override
-                    public void onComplete() {
-                        Log.e("TAG","On Complete !!");
-                    }
+                    @Override public void onComplete() { Log.e("TAG","On Complete !!"); }
                 });
     }
 
