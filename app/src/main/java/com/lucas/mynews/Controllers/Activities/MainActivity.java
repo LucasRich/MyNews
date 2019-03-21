@@ -1,18 +1,17 @@
 package com.lucas.mynews.Controllers.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.core.view.GravityCompat;
+import androidx.viewpager.widget.ViewPager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.lucas.mynews.Views.Adapter.PageAdapter;
@@ -20,8 +19,6 @@ import com.lucas.mynews.Views.Adapter.PageAdapter;
 import com.lucas.mynews.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
-    public static Context contextOfApplication;
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -31,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contextOfApplication = getApplicationContext();
 
         // START CONFIGURATION
         this.configureToolbar();
@@ -139,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        // 5 - Handle back click to close menu
+        // Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -169,10 +165,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void launchAboutActivity(){
         Intent myIntent = new Intent(MainActivity.this, AboutActivity.class);
         this.startActivity(myIntent);
-    }
-
-
-    public static Context getContextOfApplication(){
-        return contextOfApplication;
     }
 }

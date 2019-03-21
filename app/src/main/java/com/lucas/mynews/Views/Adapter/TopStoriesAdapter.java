@@ -1,12 +1,11 @@
 package com.lucas.mynews.Views.Adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.RequestManager;
 import com.lucas.mynews.Models.TopStories.TopStoriesArticle;
 import com.lucas.mynews.R;
 import com.lucas.mynews.Views.TopStoriesViewHolder;
@@ -17,12 +16,10 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
 
     // FOR DATA
     private List<TopStoriesArticle> articles;
-    private RequestManager glide;
 
     // CONSTRUCTOR
-    public TopStoriesAdapter(List<TopStoriesArticle> articles, RequestManager glide) {
+    public TopStoriesAdapter(List<TopStoriesArticle> articles) {
         this.articles = articles;
-        this.glide = glide;
     }
 
     @Override
@@ -30,7 +27,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
         // CREATE VIEW HOLDER AND INFLATING ITS XML LAYOUT
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.fragment_top_stories_item, parent, false);
+        View view = inflater.inflate(R.layout.fragment_display_article_item, parent, false);
 
         return new TopStoriesViewHolder(view);
     }
@@ -38,7 +35,7 @@ public class TopStoriesAdapter extends RecyclerView.Adapter<TopStoriesViewHolder
     // UPDATE VIEW HOLDER WITH A GITHUBUSER
     @Override
     public void onBindViewHolder(TopStoriesViewHolder viewHolder, int position) {
-        viewHolder.updateWithTopStoriesArticles(this.articles.get(position), this.glide);
+        viewHolder.updateWithTopStoriesArticles(this.articles.get(position));
     }
 
     // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST

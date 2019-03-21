@@ -1,79 +1,42 @@
 package com.lucas.mynews.Controllers.Fragments;
 
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.lucas.mynews.Controllers.Activities.WebViewActivity;
-import com.lucas.mynews.Models.MostPopular.MostPopularArticle;
-import com.lucas.mynews.Models.MostPopular.MostPopularResponse;
+import com.lucas.mynews.Controllers.Activities.MainActivity;
 import com.lucas.mynews.Models.MovieReviews.MovieReviewsArticle;
 import com.lucas.mynews.Models.MovieReviews.MovieReviewsResponse;
 import com.lucas.mynews.R;
+import com.lucas.mynews.Utils.Constant;
 import com.lucas.mynews.Utils.ItemClickSupport;
 import com.lucas.mynews.Utils.NyTimeStreams;
-import com.lucas.mynews.Utils.UtilsSingleton;
-import com.lucas.mynews.Views.Adapter.MostPopularAdapter;
+import com.lucas.mynews.Utils.UtilsFunction;
 import com.lucas.mynews.Views.Adapter.MovieReviewsAdapter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MovieReviewsFragment extends Fragment {
+public class MovieReviewsFragment extends BaseFragment {
 
-    @BindView(R.id.fragment_movie_reviews_recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.fragment_movie_reviews_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
-
-    private Disposable disposable;
     private List<MovieReviewsArticle> articles;
     private MovieReviewsAdapter adapter;
 
-    UtilsSingleton utils = UtilsSingleton.getInstance();
-
     public static MovieReviewsFragment newInstance() {
         return (new MovieReviewsFragment());
-
     }
 
+    @Override
+    protected int getFragmentLayout() {
+        return R.layout.fragment_display_article;
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie_reviews, container, false);
-        ButterKnife.bind(this, view);
-
-        // START CONFIGURATION
+    protected void launchConfiguration() {
         this.configureRecyclerView();
         this.executeHttpRequestWithRetrofit();
-        this.configureSwipeRefreshLayout();
         this.configureOnClickRecyclerView();
-
-        return view;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.disposeWhenDestroy();
     }
 
     // -----------------
@@ -82,37 +45,16 @@ public class MovieReviewsFragment extends Fragment {
 
     private void configureRecyclerView(){
         this.articles = new ArrayList<>();
-        this.adapter = new MovieReviewsAdapter(this.articles, Glide.with(this));
+        this.adapter = new MovieReviewsAdapter(this.articles);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
-    private void configureSwipeRefreshLayout(){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                executeHttpRequestWithRetrofit();
-            }
-        });
-    }
-
     private void configureOnClickRecyclerView(){
-        ItemClickSupport.addTo(recyclerView, R.layout.fragment_movie_reviews_item)
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        MovieReviewsArticle dlArticle = adapter.getArticle(position);
-
-                        Intent myIntent = new Intent(getActivity(), WebViewActivity.class);
-                        Bundle bundle = new Bundle();
-
-                        bundle.putString("url", utils.getGoodFormatUrl(dlArticle.getLink().getUrl()));
-                        System.out.println(dlArticle.getLink().getUrl());
-                        System.out.println(utils.getGoodFormatUrl(dlArticle.getLink().getUrl()));
-
-                        myIntent.putExtras(bundle);
-                        startActivity(myIntent);
-                    }
+        ItemClickSupport.addTo(recyclerView, R.layout.fragment_display_article_item)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    MovieReviewsArticle dlArticle = adapter.getArticle(position);
+                    goToWebView(UtilsFunction.getGoodFormatUrl(dlArticle.getLink().getUrl()));
                 });
     }
 
@@ -120,8 +62,9 @@ public class MovieReviewsFragment extends Fragment {
     // HTTP (RxJAVA)
     // -------------------
 
-    private void executeHttpRequestWithRetrofit(){
-        this.disposable = NyTimeStreams.streamFetchMovieReviewsArticles("all", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
+    @Override
+    protected void executeHttpRequestWithRetrofit(){
+        this.disposable = NyTimeStreams.streamFetchMovieReviewsArticles(Constant.movieReviewsType, Constant.apiKey)
                 .subscribeWith(new DisposableObserver<MovieReviewsResponse>(){
                     @Override
                     public void onNext(MovieReviewsResponse response) {
@@ -135,10 +78,6 @@ public class MovieReviewsFragment extends Fragment {
 
                     @Override public void onComplete() { Log.e("TAG","On Complete !!"); }
                 });
-    }
-
-    private void disposeWhenDestroy(){
-        if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
     // -------------------

@@ -4,28 +4,33 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import com.lucas.mynews.Models.NyTimesApiResponse;
 import com.lucas.mynews.Models.Search.Doc;
-import com.lucas.mynews.Models.Search.SearchResponse;
 import com.lucas.mynews.R;
 import com.lucas.mynews.Utils.AlarmReceiver;
+import com.lucas.mynews.Utils.Constant;
 import com.lucas.mynews.Utils.NyTimeStreams;
 import com.lucas.mynews.Utils.SharedPref;
-import com.lucas.mynews.Utils.UtilsSingleton;
+import com.lucas.mynews.Utils.UtilsFunction;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -41,12 +46,7 @@ public class NotificationActivity extends AppCompatActivity {
     @BindView(R.id.switch_notification) Switch switchNotification;
 
     private Disposable disposable;
-    private List<Doc> articles;
-    private String beginDate;
-    private String endDate;
     private int nbArticle = 0;
-
-    UtilsSingleton utils = UtilsSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,18 @@ public class NotificationActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(ab).setDisplayHomeAsUpEnabled(true);
+    }
+
+    //MAKE UP BTN BEHAVE LIKE BACK BTN
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return(super.onOptionsItemSelected(item));
     }
 
     // -------------------
@@ -82,8 +93,18 @@ public class NotificationActivity extends AppCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY,12);
         calendar.set(Calendar.MINUTE, 00);
 
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        //alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 100, pendingIntent);
+        //alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 100, pendingIntent);
+    }
+
+    @OnClick(R.id.switch_notification)
+    public void clickOnSwitchNotification() {
+        if (!checkBoxArts.isChecked() && !checkBoxBusiness.isChecked() && !checkBoxEntrepreneurs.isChecked() &&
+                !checkBoxPolitics.isChecked() && !checkBoxSports.isChecked() && !checkBoxTravel.isChecked())
+        {
+            switchNotification.setChecked(false);
+            Toast.makeText(getApplication(), "You must select a category", Toast.LENGTH_LONG).show();
+        }
     }
 
     // -------------------
@@ -91,14 +112,14 @@ public class NotificationActivity extends AppCompatActivity {
     // -------------------
 
     private void executeHttpRequestWithRetrofit(){
-        this.disposable = NyTimeStreams.streamFetchSearchArticles(SharedPref.read(SharedPref.notificationArticleSearch, ""), beginDate, endDate,
-                "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
+        this.disposable = NyTimeStreams.streamFetchSearchArticles(SharedPref.read(SharedPref.notificationArticleSearch, ""),
+                UtilsFunction.getCurrentDate(), UtilsFunction.getCurrentDate(), Constant.apiKey)
 
-                .subscribeWith(new DisposableObserver<SearchResponse>(){
+                .subscribeWith(new DisposableObserver<NyTimesApiResponse>(){
                     @Override
-                    public void onNext(SearchResponse response) {
+                    public void onNext(NyTimesApiResponse response) {
                         Log.e("TAG","On Next");
-                        List<Doc> dlArticles = response.getResponse().getDocs();
+                        List<Doc> dlArticles = response.getResponseSearchArticle().getDocs();
 
                         for (Doc dlArticle : dlArticles){
                             nbArticle++;
@@ -110,6 +131,16 @@ public class NotificationActivity extends AppCompatActivity {
 
                     @Override public void onComplete() { Log.e("TAG","On Complete !!"); }
                 });
+    }
+
+    private void disposeWhenDestroy(){
+        if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
     }
 
     // -------------------
@@ -151,15 +182,14 @@ public class NotificationActivity extends AppCompatActivity {
         SharedPref.write(SharedPref.switchNotification, switchNotification.isChecked());
 
         //ACTIVATE NOTIFICATION
-        if(SharedPref.read(SharedPref.switchNotification, false) == true && (checkBoxArts.isChecked() == true ||
-                checkBoxBusiness.isChecked() == true || checkBoxEntrepreneurs.isChecked() == true || checkBoxPolitics.isChecked() == true ||
-                checkBoxSports.isChecked() == true || checkBoxTravel.isChecked() == true))
+        if(SharedPref.read(SharedPref.switchNotification, false) && (checkBoxArts.isChecked()||
+                checkBoxBusiness.isChecked() || checkBoxEntrepreneurs.isChecked() || checkBoxPolitics.isChecked() ||
+                checkBoxSports.isChecked() || checkBoxTravel.isChecked()))
         {
-
-            SharedPref.write(SharedPref.notificationArticleSearch, utils.createParamQuery(txtBoxSearchNotification.getText().toString(), checkBoxArts,
-                    checkBoxBusiness, checkBoxEntrepreneurs, checkBoxPolitics, checkBoxSports, checkBoxTravel, checkBoxArts.getText().toString(),
-                    checkBoxBusiness.getText().toString(), checkBoxEntrepreneurs.getText().toString(), checkBoxPolitics.getText().toString(),
-                    checkBoxSports.getText().toString(), checkBoxTravel.getText().toString()));
+            SharedPref.write(SharedPref.notificationArticleSearch, UtilsFunction.createParamQuery(txtBoxSearchNotification.getText().toString(),
+                    checkBoxArts, checkBoxBusiness, checkBoxEntrepreneurs, checkBoxPolitics, checkBoxSports, checkBoxTravel,
+                    checkBoxArts.getText().toString(), checkBoxBusiness.getText().toString(), checkBoxEntrepreneurs.getText().toString(),
+                    checkBoxPolitics.getText().toString(), checkBoxSports.getText().toString(), checkBoxTravel.getText().toString()));
 
             executeHttpRequestWithRetrofit();
             startNotificationAtMidday();
@@ -167,6 +197,7 @@ public class NotificationActivity extends AppCompatActivity {
         }
         else {
             SharedPref.write(SharedPref.notificationAllow, false);
+            SharedPref.write(SharedPref.switchNotification, false);
         }
     }
 }

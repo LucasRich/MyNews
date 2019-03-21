@@ -1,47 +1,25 @@
 package com.lucas.mynews.Controllers.Fragments;
 
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.lucas.mynews.Controllers.Activities.WebViewActivity;
-import com.lucas.mynews.Models.Search.Doc;
-import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
+import com.lucas.mynews.Controllers.Activities.MainActivity;
+import com.lucas.mynews.Models.NyTimesApiResponse;
 import com.lucas.mynews.Models.TopStories.TopStoriesArticle;
 import com.lucas.mynews.R;
+import com.lucas.mynews.Utils.Constant;
 import com.lucas.mynews.Utils.ItemClickSupport;
 import com.lucas.mynews.Utils.NyTimeStreams;
-import com.lucas.mynews.Utils.SharedPref;
 import com.lucas.mynews.Views.Adapter.TopStoriesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class TopStoriesFragment extends Fragment {
+public class TopStoriesFragment extends BaseFragment {
 
-    @BindView(R.id.fragment_top_stories_recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.fragment_top_stories_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
-
-
-    private Disposable disposable;
     private List<TopStoriesArticle> articles;
     private TopStoriesAdapter adapter;
 
@@ -50,24 +28,15 @@ public class TopStoriesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
-        SharedPref.init(getContext());
-        ButterKnife.bind(this, view);
-
-        // START CONFIGURATION
-        this.configureRecyclerView();
-        this.executeHttpRequestWithRetrofit();
-        this.configureSwipeRefreshLayout();
-        this.configureOnClickRecyclerView();
-
-        return view;
+    protected int getFragmentLayout() {
+        return R.layout.fragment_display_article;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.disposeWhenDestroy();
+    protected void launchConfiguration() {
+        this.configureRecyclerView();
+        this.executeHttpRequestWithRetrofit();
+        this.configureOnClickRecyclerView();
     }
 
     // -----------------
@@ -76,50 +45,32 @@ public class TopStoriesFragment extends Fragment {
 
     private void configureRecyclerView(){
         this.articles = new ArrayList<>();
-        this.adapter = new TopStoriesAdapter(this.articles, Glide.with(this));
+        this.adapter = new TopStoriesAdapter(this.articles);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void configureOnClickRecyclerView(){
-        ItemClickSupport.addTo(recyclerView, R.layout.fragment_top_stories_item)
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        TopStoriesArticle dlArticle = adapter.getArticle(position);
-
-                        Intent myIntent = new Intent(getActivity(), WebViewActivity.class);
-                        Bundle bundle = new Bundle();
-
-                        bundle.putString("url", dlArticle.getUrl());
-
-                        myIntent.putExtras(bundle);
-                        startActivity(myIntent);
-                    }
+        ItemClickSupport.addTo(recyclerView, R.layout.fragment_display_article_item)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    TopStoriesArticle dlArticle = adapter.getArticle(position);
+                    goToWebView(dlArticle.getUrl());
                 });
-    }
-
-    private void configureSwipeRefreshLayout(){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                executeHttpRequestWithRetrofit();
-            }
-        });
     }
 
     // -------------------
     // HTTP (RxJAVA)
     // -------------------
 
-    private void executeHttpRequestWithRetrofit(){
-        this.disposable = NyTimeStreams.streamFetchTopStoriesArticles("home", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
-                .subscribeWith(new DisposableObserver<TopStoriesResponse>(){
+    @Override
+    protected void executeHttpRequestWithRetrofit(){
+        this.disposable = NyTimeStreams.streamFetchTopStoriesArticles(Constant.topStoriesSection, Constant.apiKey)
+                .subscribeWith(new DisposableObserver<NyTimesApiResponse>(){
                     @Override
-                    public void onNext(TopStoriesResponse response) {
+                    public void onNext(NyTimesApiResponse response) {
                         Log.e("TAG","On Next");
 
-                        List<TopStoriesArticle> dlArticles = response.getResult();
+                        List<TopStoriesArticle> dlArticles = response.getResultsTopStories();
                         updateUI(dlArticles);
                     }
 
@@ -127,10 +78,6 @@ public class TopStoriesFragment extends Fragment {
 
                     @Override public void onComplete() { Log.e("TAG","On Complete !!"); }
                 });
-    }
-
-    private void disposeWhenDestroy(){
-        if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
     // ------------------

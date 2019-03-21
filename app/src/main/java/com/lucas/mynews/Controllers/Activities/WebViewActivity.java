@@ -1,15 +1,20 @@
 package com.lucas.mynews.Controllers.Activities;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
+
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
 
 import com.lucas.mynews.R;
+import com.lucas.mynews.Utils.Constant;
+
+import java.util.Objects;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -27,14 +32,21 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void configureToolbar(){
-        //Get the toolbar (Serialise)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //Set the toolbar
         setSupportActionBar(toolbar);
-        // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
-        // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(ab).setDisplayHomeAsUpEnabled(true);
+    }
+
+    //MAKE UP BTN BEHAVE LIKE BACK BTN
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return(super.onOptionsItemSelected(item));
     }
 
     private void goUrl()  {
@@ -42,7 +54,7 @@ public class WebViewActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
 
-        String url = bundle.getString("url", "https://www.google.fr/");
+        String url = bundle.getString(Constant.bundleKeyUrl, "https://www.nytimes.com");
         if(url.isEmpty())  {
             Toast.makeText(this,"Please enter url",Toast.LENGTH_SHORT).show();
             return;

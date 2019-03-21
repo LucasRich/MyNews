@@ -1,7 +1,9 @@
 package com.lucas.mynews.Views.Adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,28 +19,27 @@ public class MostPopularAdapter extends RecyclerView.Adapter<MostPopularViewHold
 
         // FOR DATA
         private List<MostPopularArticle> articles;
-        private RequestManager glide;
 
         // CONSTRUCTOR
-        public MostPopularAdapter(List<MostPopularArticle> articles, RequestManager glide) {
+        public MostPopularAdapter(List<MostPopularArticle> articles) {
             this.articles = articles;
-            this.glide = glide;
         }
 
+        @NonNull
         @Override
-        public MostPopularViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MostPopularViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             // CREATE VIEW HOLDER AND INFLATING ITS XML LAYOUT
             Context context = parent.getContext();
             LayoutInflater inflater = LayoutInflater.from(context);
-            View view = inflater.inflate(R.layout.fragment_most_popular_item, parent, false);
+            View view = inflater.inflate(R.layout.fragment_display_article_item, parent, false);
 
             return new MostPopularViewHolder(view);
         }
 
-    // UPDATE VIEW HOLDER
+        // UPDATE VIEW HOLDER
         @Override
-        public void onBindViewHolder(MostPopularViewHolder viewHolder, int position) {
-            viewHolder.updateWithMostPopularArticles(this.articles.get(position), this.glide);
+        public void onBindViewHolder(@NonNull MostPopularViewHolder viewHolder, int position) {
+            viewHolder.updateWithMostPopularArticles(this.articles.get(position));
         }
 
         // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST

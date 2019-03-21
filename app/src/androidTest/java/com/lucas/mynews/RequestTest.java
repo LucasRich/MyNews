@@ -1,11 +1,10 @@
 package com.lucas.mynews;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.lucas.mynews.Models.MostPopular.MostPopularResponse;
 import com.lucas.mynews.Models.MovieReviews.MovieReviewsResponse;
-import com.lucas.mynews.Models.Search.SearchResponse;
-import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
+import com.lucas.mynews.Models.NyTimesApiResponse;
 import com.lucas.mynews.Utils.NyTimeStreams;
 
 import org.junit.Test;
@@ -20,9 +19,9 @@ public class RequestTest {
     @Test
     public void fetchTopStoriesArticles() throws Exception {
 
-        Observable<TopStoriesResponse> observableArticles = NyTimeStreams.streamFetchTopStoriesArticles("home", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST");
+        Observable<NyTimesApiResponse> observableArticles = NyTimeStreams.streamFetchTopStoriesArticles("home", "CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST");
         //2 - Create a new TestObserver
-        TestObserver<TopStoriesResponse> testObserver = new TestObserver<>();
+        TestObserver<NyTimesApiResponse> testObserver = new TestObserver<>();
         //3 - Launch observable
         observableArticles.subscribeWith(testObserver)
                 .assertNoErrors() // 3.1 - Check if no errors
@@ -59,9 +58,9 @@ public class RequestTest {
     @Test
     public void fetchSearchArticles() throws Exception {
 
-        Observable<SearchResponse> observableArticles = NyTimeStreams.streamFetchSearchArticles("election","20160101", "","CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST");
+        Observable<NyTimesApiResponse> observableArticles = NyTimeStreams.streamFetchSearchArticles("election","20160101", "","CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST");
         //2 - Create a new TestObserver
-        TestObserver<SearchResponse> testObserver = new TestObserver<>();
+        TestObserver<NyTimesApiResponse> testObserver = new TestObserver<>();
         //3 - Launch observable
         observableArticles.subscribeWith(testObserver)
                 .assertNoErrors() // 3.1 - Check if no errors

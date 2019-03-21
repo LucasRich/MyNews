@@ -1,16 +1,13 @@
 package com.lucas.mynews.Views.Adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.RequestManager;
-import com.lucas.mynews.Models.MostPopular.MostPopularArticle;
 import com.lucas.mynews.Models.Search.Doc;
 import com.lucas.mynews.R;
-import com.lucas.mynews.Views.MostPopularViewHolder;
 import com.lucas.mynews.Views.SearchViewHolder;
 
 import java.util.List;
@@ -18,12 +15,10 @@ import java.util.List;
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
 
     private List<Doc> articles;
-    private RequestManager glide;
 
     // CONSTRUCTOR
-    public SearchAdapter(List<Doc> articles, RequestManager glide) {
+    public SearchAdapter(List<Doc> articles) {
         this.articles = articles;
-        this.glide = glide;
     }
 
     @Override
@@ -39,7 +34,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     // UPDATE VIEW HOLDER
     @Override
     public void onBindViewHolder(SearchViewHolder viewHolder, int position) {
-        viewHolder.updateWithSearchArticles(this.articles.get(position), this.glide);
+        viewHolder.updateWithSearchArticles(this.articles.get(position));
     }
 
     // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST

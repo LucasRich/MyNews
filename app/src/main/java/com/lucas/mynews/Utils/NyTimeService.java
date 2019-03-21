@@ -2,10 +2,7 @@ package com.lucas.mynews.Utils;
 
 import com.lucas.mynews.Models.MostPopular.MostPopularResponse;
 import com.lucas.mynews.Models.MovieReviews.MovieReviewsResponse;
-import com.lucas.mynews.Models.Search.SearchResponse;
-import com.lucas.mynews.Models.TopStories.TopStoriesResponse;
-
-import java.util.List;
+import com.lucas.mynews.Models.NyTimesApiResponse;
 
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
@@ -17,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface NyTimeService {
     @GET("topstories/v2/{section}.json")
-    Observable<TopStoriesResponse> getTopStoriesArticle(@Path("section") String section,
+    Observable<NyTimesApiResponse> getTopStoriesArticle(@Path("section") String section,
                                                         @Query("api-key") String apiKey);
 
     @GET("mostpopular/v2/viewed/{period}.json")
@@ -29,7 +26,7 @@ public interface NyTimeService {
                                                             @Query("api-key") String apiKey);
 
     @GET("search/v2/articlesearch.json")
-    Observable<SearchResponse> getSearchArticle(
+    Observable<NyTimesApiResponse> getSearchArticle(
                                                 @Query("q") String article,
                                                 @Query("begin_date") String beginDate,
                                                 @Query("end_date") String endDate,

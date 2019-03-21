@@ -20,9 +20,6 @@ public class SharedPref {
     public static String notificationAllow = "notificationAllow";
     public static String notificationArticleSearch = "notificationArticleSearch";
 
-    static Context applicationContext = MainActivity.getContextOfApplication();
-
-
     private SharedPref() { }
 
     public static void init(Context context) {

@@ -1,8 +1,8 @@
 package com.lucas.mynews.Views.Adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.lucas.mynews.Controllers.Fragments.MostPopularFragment;
 import com.lucas.mynews.Controllers.Fragments.MovieReviewsFragment;

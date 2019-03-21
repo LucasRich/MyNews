@@ -2,39 +2,36 @@ package com.lucas.mynews.Controllers.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-import com.bumptech.glide.Glide;
+import com.lucas.mynews.Models.NyTimesApiResponse;
 import com.lucas.mynews.Models.Search.Doc;
-import com.lucas.mynews.Models.Search.SearchResponse;
 import com.lucas.mynews.R;
+import com.lucas.mynews.Utils.Constant;
 import com.lucas.mynews.Utils.ItemClickSupport;
 import com.lucas.mynews.Utils.NyTimeStreams;
-import com.lucas.mynews.Utils.SharedPref;
-import com.lucas.mynews.Utils.UtilsSingleton;
+import com.lucas.mynews.Utils.UtilsFunction;
 import com.lucas.mynews.Views.Adapter.SearchAdapter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,24 +63,22 @@ public class SearchArticleActivity extends AppCompatActivity{
     private Disposable disposable;
     private List<Doc> articles;
     private SearchAdapter adapter;
-    private boolean searchDone = false;
     private String beginDate;
     private String endDate;
     private String articleSearch;
-
-    UtilsSingleton utils = UtilsSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_article);
         ButterKnife.bind(this);
-        this.configureToolbar();
 
         // START CONFIGURATION
+        this.configureToolbar();
         this.configureRecyclerView();
         this.configureSwipeRefreshLayout();
         this.configureOnClickRecyclerView();
+        swipeRefreshLayout.setEnabled(false);
     }
 
     // -----------------
@@ -94,45 +89,48 @@ public class SearchArticleActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(ab).setDisplayHomeAsUpEnabled(true);
     }
 
     private void configureRecyclerView(){
         this.articles = new ArrayList<>();
-        this.adapter = new SearchAdapter(this.articles, Glide.with(this));
+        this.adapter = new SearchAdapter(this.articles);
         this.recyclerView.setAdapter(this.adapter);
         this.recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void configureOnClickRecyclerView(){
         ItemClickSupport.addTo(recyclerView, R.layout.activity_search_article_item)
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Doc dlArticle = adapter.getArticle(position);
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    Doc dlArticle = adapter.getArticle(position);
 
-                        Intent myIntent = new Intent(SearchArticleActivity.this, WebViewActivity.class);
-                        Bundle bundle = new Bundle();
+                    Intent myIntent = new Intent(SearchArticleActivity.this, WebViewActivity.class);
+                    Bundle bundle = new Bundle();
 
-                        bundle.putString("url", dlArticle.getWebUrl());
+                    bundle.putString(Constant.bundleKeyUrl, dlArticle.getWebUrl());
 
-                        myIntent.putExtras(bundle);
-                        startActivity(myIntent);
-                    }
+                    myIntent.putExtras(bundle);
+                    startActivity(myIntent);
                 });
     }
 
     private void configureSwipeRefreshLayout(){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (searchDone == true){
-                    articles.clear();
-                    updateUIWhenStartingHTTPRequest();
-                    executeHttpRequestWithRetrofit();
-                }
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+                articles.clear();
+                updateUIWhenStartingHTTPRequest();
+                executeHttpRequestWithRetrofit();
         });
+    }
+
+    //MAKE UP BTN BEHAVE LIKE BACK BTN
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return(super.onOptionsItemSelected(item));
     }
 
     // -----------------
@@ -150,21 +148,16 @@ public class SearchArticleActivity extends AppCompatActivity{
 
         // SELECT DATE
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
+                (view, year, monthOfYear, dayOfMonth) -> {
 
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
+                    if(monthOfYear > 9) {
+                        txtBeginDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        beginDate = (year + "" + (monthOfYear + 1) + "" + dayOfMonth);
+                    }
+                    else {
+                        txtBeginDate.setText(dayOfMonth + "/" + "0" + (monthOfYear + 1) + "/" + year);
+                        beginDate = (year + "" + "0" + (monthOfYear + 1) + "" + dayOfMonth);
 
-                        if(monthOfYear > 9) {
-                            txtBeginDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                            beginDate = (year + "" + (monthOfYear + 1) + "" + dayOfMonth);
-                        }
-                        else {
-                            txtBeginDate.setText(dayOfMonth + "/" + "0" + (monthOfYear + 1) + "/" + year);
-                            beginDate = (year + "" + "0" + (monthOfYear + 1) + "" + dayOfMonth);
-
-                        }
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -181,22 +174,17 @@ public class SearchArticleActivity extends AppCompatActivity{
 
         // SELECT DATE
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                new DatePickerDialog.OnDateSetListener() {
+                (view, year, monthOfYear, dayOfMonth) -> {
 
-                    @Override
-                    public void onDateSet(DatePicker view, int year,
-                                          int monthOfYear, int dayOfMonth) {
+                    if(monthOfYear > 9) {
+                        txtEndDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        endDate = (year + "" + (monthOfYear + 1) + "" + dayOfMonth);
 
-                        if(monthOfYear > 9) {
-                            txtEndDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                            endDate = (year + "" + (monthOfYear + 1) + "" + dayOfMonth);
+                    }
+                    else {
+                        txtEndDate.setText(dayOfMonth + "/" + "0" + (monthOfYear + 1) + "/" + year);
+                        endDate = (year + "" + "0" + (monthOfYear + 1) + "" + dayOfMonth);
 
-                        }
-                        else {
-                            txtEndDate.setText(dayOfMonth + "/" + "0" + (monthOfYear + 1) + "/" + year);
-                            endDate = (year + "" + "0" + (monthOfYear + 1) + "" + dayOfMonth);
-
-                        }
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -206,14 +194,21 @@ public class SearchArticleActivity extends AppCompatActivity{
     public void onClickBtnSearch() {
         articles.clear();
 
-        articleSearch = utils.createParamQuery(txtBoxSearch.getText().toString(), checkBoxArts, checkBoxBusiness, checkBoxEntrepreneurs, checkBoxPolitics,
+        articleSearch = UtilsFunction.createParamQuery(txtBoxSearch.getText().toString(), checkBoxArts, checkBoxBusiness, checkBoxEntrepreneurs, checkBoxPolitics,
                 checkBoxSports, checkBoxTravel, checkBoxArts.getText().toString(), checkBoxBusiness.getText().toString(),
                 checkBoxEntrepreneurs.getText().toString(), checkBoxPolitics.getText().toString(),
                 checkBoxSports.getText().toString(), checkBoxTravel.getText().toString());
 
-        this.updateUIWhenStartingHTTPRequest();
-        this.executeHttpRequestWithRetrofit();
-        searchDone = true;
+        if((checkBoxArts.isChecked() || checkBoxBusiness.isChecked() || checkBoxEntrepreneurs.isChecked() ||
+                checkBoxPolitics.isChecked() || checkBoxSports.isChecked() || checkBoxTravel.isChecked()))
+        {
+            this.updateUIWhenStartingHTTPRequest();
+            this.executeHttpRequestWithRetrofit();
+            swipeRefreshLayout.setEnabled(true);
+        }
+        else {
+            Toast.makeText(getApplication(), "You must select a category", Toast.LENGTH_LONG).show();
+        }
     }
 
     // -------------------
@@ -221,15 +216,15 @@ public class SearchArticleActivity extends AppCompatActivity{
     // -------------------
 
     private void executeHttpRequestWithRetrofit(){
-        this.disposable = NyTimeStreams.streamFetchSearchArticles(articleSearch, beginDate, endDate,"CMCk9Nz5BAjNKu5cF8nkDmoMzd3EOJST")
-                .subscribeWith(new DisposableObserver<SearchResponse>(){
+        this.disposable = NyTimeStreams.streamFetchSearchArticles(articleSearch, beginDate, endDate,Constant.apiKey)
+                .subscribeWith(new DisposableObserver<NyTimesApiResponse>(){
                     @Override
-                    public void onNext(SearchResponse response) {
+                    public void onNext(NyTimesApiResponse response) {
                         Log.e("TAG","On Next");
 
-                        if (response.getResponse().getDocs().isEmpty() == false){
+                        if (response.getResponseSearchArticle().getDocs().isEmpty() == false){
                             txtDownloading.setText("");
-                            List<Doc> dlArticles = response.getResponse().getDocs();
+                            List<Doc> dlArticles = response.getResponseSearchArticle().getDocs();
                             updateUI(dlArticles);
                         }
                         else{
@@ -246,6 +241,12 @@ public class SearchArticleActivity extends AppCompatActivity{
 
     private void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
     }
 
     // -------------------
