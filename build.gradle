@@ -6,6 +6,9 @@ buildscript {
         mavenCentral()
         google()
         jcenter()
+        maven {
+            url 'https://dl.google.com/dl/android/maven2'
+        }
     }
 
     dependencies {
