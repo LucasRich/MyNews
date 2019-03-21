@@ -93,8 +93,8 @@ public class NotificationActivity extends AppCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY,12);
         calendar.set(Calendar.MINUTE, 00);
 
-        //alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 100, pendingIntent);
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        //alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 100, pendingIntent);
     }
 
     @OnClick(R.id.switch_notification)

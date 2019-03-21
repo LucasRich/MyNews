@@ -6,13 +6,10 @@ buildscript {
         mavenCentral()
         google()
         jcenter()
-        maven {
-            url 'https://dl.google.com/dl/android/maven2'
-        }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.0.0'
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
 
