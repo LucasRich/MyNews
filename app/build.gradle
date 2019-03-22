@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28 //Android 9
     defaultConfig {
         applicationId "com.lucas.mynews"
-        minSdkVersion 15 //Android 4.0.3
+        minSdkVersion 19 //Android 4.4
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -19,6 +19,17 @@ android {
         }
         debug {
             testCoverageEnabled true
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 
